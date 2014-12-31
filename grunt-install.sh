@@ -143,6 +143,7 @@ grunt_process_arg() {
 
 
 # upgrade grunt-install
+# Note: only clones from github once
 #
 # ${1}  option passed to installation script
 grunt_upgrade() {

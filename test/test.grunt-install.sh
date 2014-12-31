@@ -39,3 +39,25 @@ source grunt-install.sh
   ! grunt_install_from_npmjs "GOCHO_CANT_BE_A_PACKAGE" \
     "_TEST_npmjs2"
 }
+
+
+make_fake_template() {
+  mkdir ${1}
+  mkdir ${1}/lib
+  touch ${1}/a.js ${1}/lib/b.js
+}
+
+
+@test "grunt_wrap_template: wraps template for grunt-init" {
+  make_fake_template "_TEST_grunt_wrap_1"
+  grunt_wrap_template "_TEST_grunt_wrap_1" "boom"
+  [ -r _TEST_grunt_wrap_1/template.js ] \
+    && [ -d _TEST_grunt_wrap_1/root ]
+}
+
+
+@test "grunt_log: enables silence" {
+  GRUNT_INSTALL_SILENT=true
+  grunt_log "Wont show up on console" 0 > _TEST_grunt_log_file
+  [ $(grep -c -E "*" _TEST_grunt_log_file) -eq 0 ]
+}
