@@ -51,6 +51,18 @@ grunt_install_from_npmjs() {
 }
 
 
+# wraps package for grunt-init
+#
+# ${1}  package directory path
+grunt_wrap_package() {
+  if [ ! -e "${1}/template.js" ] && [ ! -d "${1}/root" ] ; then
+    rsync --remove-source-files -r ${1}/* ${1}/root
+    rmdir ${1}/* --ignore-fail-on-non-empty --parents
+    cp lib/template.js ${1}
+  fi
+}
+
+
 # logs to console
 #
 # ${1}  message to write to console
@@ -83,6 +95,7 @@ grunt_install() {
     grunt_install_from_npmjs ${1} ${dest_dir}
   fi
   if [ $? ] && [ -d ${dest_dir} ] ; then
+    grunt_wrap_package ${dest_dir}
     grunt_log "template installed as '${2}'" 1
     return 0
   fi

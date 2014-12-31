@@ -37,17 +37,24 @@ grunt_check_requirements() {
 
 
 # All requirements for `grunt-install`
-requirements=("git" "npm")
+requirements=("git" "npm" "rsync")
 
 
 # defaulting to install in /usr/bin
-[ $# -eq 0 ] && INSTALL_DIR=/usr/local/bin || INSTALL_DIR=$1
+[ $# -eq 0 ] && INSTALL_BIN=/usr/local/bin || INSTALL_BIN=$1
+
+
+# resolving a lib directory
+INSTALL_DIR="$(dirname ${INSTALL_BIN})/lib/grunt-install"
 
 
 # Invoking Installation
 if grunt_check_requirements requirements[@] ; then
-  echo "installing into ${INSTALL_DIR}"
-  cp -p grunt-install.sh ${INSTALL_DIR}/grunt-install > /dev/null 2>&1
+  echo "installing: ${INSTALL_DIR}"
+  mkdir -p ${INSTALL_DIR}
+  cp -fpr grunt-install.sh lib ${INSTALL_DIR}
+  echo "linking: ${INSTALL_DIR}/grunt-install.sh -> ${INSTALL_BIN}/grunt-install"
+  ln -fs ${INSTALL_DIR}/grunt-install.sh ${INSTALL_BIN}/grunt-install
   [ $? -eq 0 ] && echo "successfully installed" || echo "ERROR: installation failed"
 else
   echo "ERROR: requirements not satisfied"
