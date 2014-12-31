@@ -16,7 +16,7 @@ This method clones the Github repository and runs the `install.sh` script in
 ```
 
 
-## usage
+## usage:
 
 __grunt-install__ allows you to install Grunt templates from both Github
  and NPM online registry with much ease.
@@ -31,7 +31,8 @@ This uses a Github shorthand which will be expanded to match the Github
  Repository URL. You also provide a name, in this case `MyTemplate`, that
  will be given to the template.
 
-You may also install templates from NPM online registry, by simply running:
+You may also install templates from NPM online registry, by simply
+ running:
 
 ```bash
 ⇒ grunt-install grunt-template-esta MyTemplate
@@ -45,21 +46,50 @@ Once templates are installed, you may now use [grunt-init][grunt-init] to
 ```
 
 
+## tips:
+
+Lets say we version bump and you want to upgrade to the latest version
+ __grunt-install__, it is simple:
+
+```bash
+⇒ grunt-install --upgrade
+```
+
+In the spirit of keeping up to date, you want to update your templates:
+
+```bash
+⇒ grunt-install --update
+```
+
+If you ever want to replace a template with another while installing, you
+ could simply use the `--force` option. Example:
+
+```bash
+⇒ grunt-install --force forfuture-dev/grunt-template-esta esta
+```
+
+
 ## help information:
 
 ```bash
 ⇒ grunt-install --help
-grunt-install
+grunt-install 0.0.0
 
-Usage: grunt-install <URI> <template_name>
+Usage: grunt-install [install_options] <URI> <template_name>
 
 Where <URI> can be:
     UserName/RepoName    github shorthand
     PackageName          npm package name
 
+Install Options:
+    -f,  --force         Force installation
+    -s,  --silent        Be Silent
+
 More Options:
-    --help               Show this help information
-    --version            Show version information
+    -h,  --help          Show this help information
+    -u,  --update        Update installed templates
+    -up, --upgrade       Upgrade grunt-install
+    -v,  --version       Show version information
 
 Examples:
     grunt-install forfuture-dev/grunt-template-esta MyTemplate
