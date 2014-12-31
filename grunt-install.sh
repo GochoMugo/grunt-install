@@ -8,12 +8,21 @@
 GRUNT_INSTALL_VERSION="0.0.0"
 
 
+# Template Directory
+GRUNT_TEMPLATE_DIRECTORY=~/.grunt-init
+
+
 # Colors for Bash
 GRUNT_COLOR_BLUE="\033[0;34m"
 GRUNT_COLOR_GREEN="\033[0;32m"
 GRUNT_COLOR_RED="\033[0;31m"
 GRUNT_COLOR_RESET="\e[0m"
 GRUNT_COLOR_WHITE="\033[1;37m"
+
+
+# Script Variables
+GRUNT_INSTALL_FORCE=false
+GRUNT_INSTALL_SILENT=false
 
 
 # installs from Github
@@ -51,15 +60,17 @@ grunt_install_from_npmjs() {
 }
 
 
-# wraps package for grunt-init
+# wraps template for grunt-init, updating
 #
 # ${1}  package directory path
-grunt_wrap_package() {
+# ${2}  command to run to update template
+grunt_wrap_template() {
   if [ ! -e "${1}/template.js" ] && [ ! -d "${1}/root" ] ; then
     rsync --remove-source-files -r ${1}/* ${1}/root
     rmdir ${1}/* --ignore-fail-on-non-empty --parents
     cp lib/template.js ${1}
   fi
+  echo "GRUNT_TEMPLATE_UPDATE=${2}" >> ${1}/.grunt-install.config
 }
 
 
@@ -68,6 +79,7 @@ grunt_wrap_package() {
 # ${1}  message to write to console
 # ${2} what color to use. 0 - info(blue), 1- success(green), 2 - error(red)
 grunt_log() {
+  if [ ${GRUNT_INSTALL_SILENT} == true ] ; then return ; fi
   if [ ! ${GRUNT_INSTALL_NO_COLOR} ] ; then
     [ ${2} -eq 0 ] && local color=${GRUNT_COLOR_BLUE}
     [ ${2} -eq 1 ] && local color=${GRUNT_COLOR_GREEN}
@@ -81,12 +93,13 @@ grunt_log() {
 
 # initializes installation
 grunt_install() {
-  local dest_dir=~/.grunt-init/${2}
-  if [ -d ${dest_dir} ] ; then
+  local dest_dir=${GRUNT_TEMPLATE_DIRECTORY}/${2}
+  if [ -d ${dest_dir} ] && [ ${GRUNT_INSTALL_FORCE} == false ] ; then
     grunt_log "a template with same name exists" 2
     grunt_log "try a different name" 2
     exit 1
   fi
+  rm -rf ${dest_dir} > /dev/null 2>&1
   if grunt_is_github_shorthand ${1} ; then
     grunt_log "installing from github" 0
     grunt_install_from_github ${1} ${dest_dir}
@@ -95,7 +108,7 @@ grunt_install() {
     grunt_install_from_npmjs ${1} ${dest_dir}
   fi
   if [ $? ] && [ -d ${dest_dir} ] ; then
-    grunt_wrap_package ${dest_dir}
+    grunt_wrap_template ${dest_dir} ${1}
     grunt_log "template installed as '${2}'" 1
     return 0
   fi
@@ -104,19 +117,50 @@ grunt_install() {
 }
 
 
+# updates grunt templates
+grunt_update_templates() {
+  for template in ${GRUNT_TEMPLATE_DIRECTORY}/*/ ; do
+    if [ -r ${template}/.grunt-install.config ] ; then
+      template_name=$(basename ${template})
+      source ${template}/.grunt-install.config
+      ./grunt-install.sh ${GRUNT_TEMPLATE_UPDATE} ${template_name} --force --silent \
+      && grunt_log "updated: ${template_name}" 1 \
+      || grunt_log "failed to update: ${template_name}" 2
+    fi
+  done
+}
+
+
+# process arguments
+grunt_process_arg() {
+  case ${1} in
+    "-f" | "--force")
+      GRUNT_INSTALL_FORCE=true ;;
+    "-s" | "--silent")
+      GRUNT_INSTALL_SILENT=true ;;
+  esac
+}
+
+
 # show help information
 grunt_show_help() {
-  echo "grunt-install"
+  echo "grunt-install ${GRUNT_INSTALL_VERSION}"
   echo
-  echo "Usage: grunt-install <URI> <template_name>"
+  echo "Usage: grunt-install [install_options] <URI> <template_name>"
   echo
   echo "Where <URI> can be:"
   echo "    UserName/RepoName    github shorthand"
   echo "    PackageName          npm package name"
   echo
+  echo "Install Options:"
+  echo "    -f,  --force         Force installation"
+  echo "    -s,  --silent        Be Silent"
+  echo
   echo "More Options:"
-  echo "    --help               Show this help information"
-  echo "    --version            Show version information"
+  echo "    -h,  --help          Show this help information"
+  echo "    -u,  --update        Update installed templates"
+  echo "    -up, --upgrade       Upgrade grunt-install"
+  echo "    -v,  --version       Show version information"
   echo
   echo "Examples:"
   echo "    grunt-install forfuture-dev/grunt-template-esta MyTemplate"
@@ -126,7 +170,8 @@ grunt_show_help() {
 
 # shows version information
 grunt_show_version() {
-  grunt_log "${GRUNT_INSTALL_VERSION}" 0
+  grunt_log "${GRUNT_INSTALL_VERSION} by GochoMugo <mugo@forfuture.co.ke>" 0
+  grunt_log "repo at https://github.com/GochoMugo/grunt-install" 0
 }
 
 
@@ -138,16 +183,29 @@ grunt_show_version() {
 # ${1}  template_source
 # ${2}  [preffered_name]
 case $1 in
-  "--help" )
+  "-h" | "--help" )
     grunt_show_help ;;
-  "--version" )
+  "-v" | "--version" )
     grunt_show_version ;;
+  "-u" | "--update")
+    grunt_update_templates ;;
   * )
+    declare -a args
+    index=0
+    # processing install options
+    for arg in $@ ; do
+      if [[ ${arg} == -* ]] ; then
+        grunt_process_arg ${arg}
+      else
+        args[index]=${arg}
+        ((index++))
+      fi
+    done
     # if less/excess command-line arguments are passed, error is shown
-    if [ $# -ne 2 ] ; then
-      grunt_log "less/excess arguments" 2
+    if [ ${#args[@]} -lt 2 ] || [ $# -lt 2 ] ; then
+      grunt_log "missing arguments" 2
       grunt_log "try \`--help' for help information" 2
       exit 1
     fi
-    grunt_install ${1} ${2} ;;
+    grunt_install ${args[0]} ${args[1]} ;;
 esac
