@@ -142,6 +142,18 @@ grunt_process_arg() {
 }
 
 
+# upgrade grunt-install
+#
+# ${1}  option passed to installation script
+grunt_upgrade() {
+  grunt_log "upgrading myself" 0
+  git clone https://github.com/GochoMugo/grunt-install /tmp/grunt-install-upgrade > /dev/null 2>&1
+  /tmp/grunt-install-upgrade/install.sh ${1} > /dev/null 2>&1 \
+  && grunt_log "successful upgrade" 1 \
+  || grunt_log "failed to upgrade" 2
+}
+
+
 # show help information
 grunt_show_help() {
   echo "grunt-install ${GRUNT_INSTALL_VERSION}"
@@ -182,13 +194,15 @@ grunt_show_version() {
 # Parsing Arguments. At least 1 argument is required.
 # ${1}  template_source
 # ${2}  [preffered_name]
-case $1 in
+case ${1} in
   "-h" | "--help" )
     grunt_show_help ;;
   "-v" | "--version" )
     grunt_show_version ;;
   "-u" | "--update")
     grunt_update_templates ;;
+  "-up" | "--upgrade")
+    grunt_upgrade ${2} ;;
   * )
     declare -a args
     index=0

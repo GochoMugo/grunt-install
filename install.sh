@@ -55,7 +55,13 @@ if grunt_check_requirements requirements[@] ; then
   cp -fpr grunt-install.sh lib ${INSTALL_DIR}
   echo "linking: ${INSTALL_DIR}/grunt-install.sh -> ${INSTALL_BIN}/grunt-install"
   ln -fs ${INSTALL_DIR}/grunt-install.sh ${INSTALL_BIN}/grunt-install
-  [ $? -eq 0 ] && echo "successfully installed" || echo "ERROR: installation failed"
+  if [ $? -eq 0 ] ; then
+    echo "successfully installed"
+  else
+    echo "ERROR: installation failed"
+    exit 1
+  fi
 else
   echo "ERROR: requirements not satisfied"
+  exit 1
 fi
