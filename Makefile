@@ -12,7 +12,7 @@ test:
 
 deps:
 	git clone https://github.com/sstephenson/bats.git
-	export PATH=$PATH:bats/bin
+	export PATH=$$PATH:bats/bin
 	npm install
 
 
