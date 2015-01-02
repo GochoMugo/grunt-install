@@ -5,14 +5,13 @@
 # Licensed under the MIT License
 
 test:
-	GRUNT_INSTALL_UNIT_TEST="test" bats test/test.install.sh
-	GRUNT_INSTALL_UNIT_TEST="test" bats test/test.grunt-install.sh
+	GRUNT_INSTALL_UNIT_TEST="test" ./bats/bin/bats test/test.install.sh
+	GRUNT_INSTALL_UNIT_TEST="test" ./bats/bin/bats test/test.grunt-install.sh
 	grunt
 	make clean
 
 deps:
-	git clone https://github.com/sstephenson/bats.git
-	export PATH=$$PATH:bats/bin
+	git clone https://github.com/sstephenson/bats.git bats
 	npm install
 
 
