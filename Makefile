@@ -19,4 +19,4 @@ deps:
 clean:
 	rm -rf _TEST_* npm-debug.log
 
-.PHONY: test deps clean
+.PHONY: test clean

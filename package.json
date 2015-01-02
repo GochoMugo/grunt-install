@@ -6,7 +6,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "make test"
+    "test": "make deps && make test"
   },
   "repository": {
     "type": "git",
