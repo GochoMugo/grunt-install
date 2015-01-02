@@ -10,7 +10,13 @@ test:
 	grunt
 	make clean
 
+deps:
+	git clone https://github.com/sstephenson/bats.git
+	PATH=$PATH:bats/bin
+	npm install
+
+
 clean:
 	rm -rf _TEST_* npm-debug.log
 
-.PHONY: test clean
+.PHONY: test deps clean
