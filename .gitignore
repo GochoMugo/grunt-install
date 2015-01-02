@@ -1,0 +1,5 @@
+# bats installation
+bats/
+
+# npm installed modules
+node_modules/
