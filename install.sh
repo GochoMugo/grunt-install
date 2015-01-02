@@ -1,7 +1,9 @@
 #!/bin/bash
 # Install script for `grunt-install`
+# https://github.com/GochoMugo/grunt-install
 #
-# Copyright (c) 2014 Gocho Mugo <mugo@forfuture.co.ke>
+# Copyright (c) 2014-2015 Gocho Mugo <mugo@forfuture.co.ke>
+# Licensed under the MIT License
 
 
 # checks if commands and utilities are installed on computer
