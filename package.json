@@ -1,0 +1,30 @@
+{
+  "name": "grunt-install",
+  "version": "0.0.0",
+  "description": "Simple Bash script for Grunt template installation",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "make test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GochoMugo/grunt-install.git"
+  },
+  "keywords": [
+    "grunt",
+    "template",
+    "installer"
+  ],
+  "author": "GochoMugo <mugo@forfuture.co.ke>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/GochoMugo/grunt-install/issues"
+  },
+  "homepage": "https://github.com/GochoMugo/grunt-install",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-jshint": "^0.10.0"
+  }
+}

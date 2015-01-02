@@ -1,4 +1,8 @@
-# runs tests against `install.sh`
+# Runs tests against `install.sh`
+# https://github.com/GochoMugo/grunt-install
+#
+# Copyright (c) 2014-2015 Gocho Mugo <mugo@forfuture.co.ke>
+# Licensed under the MIT License
 
 
 # sourcing the `install.sh` script
