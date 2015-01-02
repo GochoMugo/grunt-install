@@ -115,6 +115,15 @@ Here is a list of grunt templates you may be interested in. You can install
 * [ghost-town/grunt-init-assemble](https://github.com/ghost-town/grunt-init-assemble)
 
 
+## contribution:
+
+Hands-on the `develop` branch. Don't touch `master`, only stable release
+ branches are merged into it.
+
+Tests are run using [bats][bats]. Please accompany PR's with relevant
+ tests. Issues are tracked from [here][issues].
+
+
 ## license:
 
 __The MIT License (MIT)__
@@ -144,5 +153,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
+[bats]:https://github.com/sstephenson/bats "Bash Automated Testing System"
 [esta]:https://github.com/forfuture-dev/grunt-template-esta
 [grunt-init]:https://github.com/gruntjs/grunt-init
+[issues]:https://github.com/GochoMugo/grunt-install/issues
