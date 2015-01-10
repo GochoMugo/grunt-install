@@ -63,3 +63,15 @@ make_fake_template() {
   grunt_log "Wont show up on console" 0 > _TEST_grunt_log_file
   [ $(grep -c -E "*" _TEST_grunt_log_file) -eq 0 ]
 }
+
+
+# refer to issue #1 (https://github.com/GochoMugo/grunt-install/issues/1)
+@test "grunt_update_templates: updates templates regardless of working directory" {
+  mkdir _TEST_grunt_update_cwd
+  cd _TEST_grunt_update_cwd
+  grunt_update_templates > log
+  [ $(grep -c -E "failed to update" log) -eq 0 ]
+  exit_code=$?
+  cd -
+  return $?
+}
