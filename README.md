@@ -1,5 +1,5 @@
 
-# grunt-install
+# grunt-install [![Codeship Status for GochoMugo/grunt-install](https://codeship.com/projects/dfa06220-6f11-0132-0e73-16fcb937ed3c/status?branch=master)](https://codeship.com/projects/54390)
 
 Simple Bash script for Grunt template installation
 
@@ -107,12 +107,15 @@ Here is a list of grunt templates you may be interested in. You can install
  them using the label shown.
 
 * [forfuture-dev/grunt-template-esta][esta] (`⇒ grunt-install forfuture-dev/grunt-template-esta MyPreferredName` will just do)
-* [mathiasbynens/grunt-template](https://github.com/mathiasbynens/grunt-template)
 * [leemunroe/grunt-email-design](https://github.com/leemunroe/grunt-email-design)
 * [dwightjack/grunt-email-boilerplate](https://github.com/dwightjack/grunt-email-boilerplate)
 * [fooplugins/grunt-wp-boilerplate](https://github.com/fooplugins/grunt-wp-boilerplate)
 * [eunjae-lee/node-express-grunt-boilerplate](https://github.com/eunjae-lee/node-express-grunt-boilerplate)
 * [ghost-town/grunt-init-assemble](https://github.com/ghost-town/grunt-init-assemble)
+
+Have a favorite grunt template you want to see in the list above? Send a Pull
+ Request having added it to the bottom of the list. See section on **contribution**
+ below.
 
 
 ## contribution:
