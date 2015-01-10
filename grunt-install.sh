@@ -23,8 +23,13 @@ GRUNT_COLOR_WHITE="\033[1;37m"
 
 
 # Script Variables
+GRUNT_ME=$0 # useful for invoking this same script from within it
 GRUNT_INSTALL_FORCE=false
 GRUNT_INSTALL_SILENT=false
+
+
+# Test-specific variables
+[ ${GRUNT_INSTALL_UNIT_TEST} ] && GRUNT_ME="$BATS_TEST_DIRNAME/../grunt-install.sh"
 
 
 # installs from Github
@@ -121,15 +126,21 @@ grunt_install() {
 
 # updates grunt templates
 grunt_update_templates() {
+  local update_success=0
   for template in ${GRUNT_TEMPLATE_DIRECTORY}/*/ ; do
     if [ -r ${template}/.grunt-install.config ] ; then
       template_name=$(basename ${template})
       source ${template}/.grunt-install.config
-      ./grunt-install.sh ${GRUNT_TEMPLATE_UPDATE} ${template_name} --force --silent \
-      && grunt_log "updated: ${template_name}" 1 \
-      || grunt_log "failed to update: ${template_name}" 2
+      ${GRUNT_ME} ${GRUNT_TEMPLATE_UPDATE} ${template_name} --force --silent
+      if [ $? -eq 0 ] ; then
+        grunt_log "updated: ${template_name}" 1
+      else
+        grunt_log "failed to update: ${template_name}" 2
+        update_success=1
+      fi
     fi
   done
+  return ${update_success}
 }
 
 
