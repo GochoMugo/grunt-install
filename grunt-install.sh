@@ -7,7 +7,7 @@
 
 
 # Version Number
-GRUNT_INSTALL_VERSION="0.0.0"
+GRUNT_INSTALL_VERSION="0.0.1"
 
 
 # Template Directory

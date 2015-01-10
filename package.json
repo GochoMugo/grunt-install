@@ -1,6 +1,6 @@
 {
   "name": "grunt-install",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Simple Bash script for Grunt template installation",
   "directories": {
     "test": "test"
