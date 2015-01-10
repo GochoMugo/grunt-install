@@ -77,7 +77,7 @@ Setting the environment variable `GRUNT_INSTALL_NO_COLOR` will
 
 ```bash
 ⇒ grunt-install --help
-grunt-install 0.0.0
+grunt-install 0.0.1
 
 Usage: grunt-install [install_options] <URI> <template_name>
 
